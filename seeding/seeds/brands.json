@@ -1,0 +1,38 @@
+{
+	"data": [{
+		"type": "brands",
+		"attributes": {
+			"code": "VA",
+			"description": "Valtra"
+		},
+		"id": "e0c6a801-61cb-44a8-96a6-054826eed692"
+	}, {
+		"type": "brands",
+		"attributes": {
+			"code": "FE",
+			"description": "Fendt"
+		},
+		"id": "c4480917-7166-4310-8458-c1c8d37d8589"
+	}, {
+		"type": "brands",
+		"attributes": {
+			"code": "GS",
+			"description": "GSI"
+		},
+		"id": "8d4aea56-d063-4d9f-bed2-fdf67c16be33"
+	}, {
+		"type": "brands",
+		"attributes": {
+			"code": "CH",
+			"description": "Challenger"
+		},
+		"id": "739c7ab0-8cd8-442b-bfad-0e18e2237d82"
+	}, {
+		"type": "brands",
+		"attributes": {
+			"code": "GS",
+			"description": "Massey Ferguson"
+		},
+		"id": "50eedc62-ba2f-49b3-a70e-304597f91d40"
+	}]
+}

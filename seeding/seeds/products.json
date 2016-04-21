@@ -1,0 +1,333 @@
+{
+	"data": [{
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "739c7ab0-8cd8-442b-bfad-0e18e2237d82",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/ffb9294c-4ad4-41be-bd3a-a3582fd4653f/brands/739c7ab0-8cd8-442b-bfad-0e18e2237d82"
+				}
+			}
+		},
+		"attributes": {
+			"description": "MT800C"
+		},
+		"id": "ffb9294c-4ad4-41be-bd3a-a3582fd4653f"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/faba9f72-fa3f-43fa-89bb-eb0ae7e856ab/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 6700 DYNA-4"
+		},
+		"id": "faba9f72-fa3f-43fa-89bb-eb0ae7e856ab"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "e0c6a801-61cb-44a8-96a6-054826eed692",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/e7b20a9f-aa9c-4d0d-b8ba-f57f09a4e73c/brands/e0c6a801-61cb-44a8-96a6-054826eed692"
+				}
+			}
+		},
+		"attributes": {
+			"description": "T Series"
+		},
+		"id": "e7b20a9f-aa9c-4d0d-b8ba-f57f09a4e73c"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "739c7ab0-8cd8-442b-bfad-0e18e2237d82",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/e214745d-6174-4ac6-88c1-745fef1375fe/brands/739c7ab0-8cd8-442b-bfad-0e18e2237d82"
+				}
+			}
+		},
+		"attributes": {
+			"description": "MT700E"
+		},
+		"id": "e214745d-6174-4ac6-88c1-745fef1375fe"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "e0c6a801-61cb-44a8-96a6-054826eed692",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/e120b07a-d848-4215-bd00-462cd000b212/brands/e0c6a801-61cb-44a8-96a6-054826eed692"
+				}
+			}
+		},
+		"attributes": {
+			"description": "New T Series"
+		},
+		"id": "e120b07a-d848-4215-bd00-462cd000b212"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/cd157911-4db6-45ee-9bc2-220d2d05d02a/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 7100 Special"
+		},
+		"id": "cd157911-4db6-45ee-9bc2-220d2d05d02a"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "e0c6a801-61cb-44a8-96a6-054826eed692",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/ccbeba99-a339-49ad-bdc3-b9f223c35f20/brands/e0c6a801-61cb-44a8-96a6-054826eed692"
+				}
+			}
+		},
+		"attributes": {
+			"description": "N Series"
+		},
+		"id": "ccbeba99-a339-49ad-bdc3-b9f223c35f20"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "c4480917-7166-4310-8458-c1c8d37d8589",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/bccdcc18-a84c-4666-8e55-3d1871bc4b7e/brands/c4480917-7166-4310-8458-c1c8d37d8589"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Fendt 800 Vario"
+		},
+		"id": "bccdcc18-a84c-4666-8e55-3d1871bc4b7e"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "739c7ab0-8cd8-442b-bfad-0e18e2237d82",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/b2bbb478-4399-4114-82bd-bca8b23a23b0/brands/739c7ab0-8cd8-442b-bfad-0e18e2237d82"
+				}
+			}
+		},
+		"attributes": {
+			"description": "MT800E"
+		},
+		"id": "b2bbb478-4399-4114-82bd-bca8b23a23b0"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "c4480917-7166-4310-8458-c1c8d37d8589",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/ab9c7ace-1b95-4001-8746-b7bd74872a36/brands/c4480917-7166-4310-8458-c1c8d37d8589"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Fendt 900 Vario"
+		},
+		"id": "ab9c7ace-1b95-4001-8746-b7bd74872a36"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/9ca8d86b-d8e1-4b54-8944-a76995b12974/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 7100"
+		},
+		"id": "9ca8d86b-d8e1-4b54-8944-a76995b12974"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/84ba2b60-1228-49b1-b5c2-2af4f42e28bb/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 4200 COMPACT"
+		},
+		"id": "84ba2b60-1228-49b1-b5c2-2af4f42e28bb"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "739c7ab0-8cd8-442b-bfad-0e18e2237d82",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/803af4f9-9f8d-48dc-8e6d-5a565e3d5bb2/brands/739c7ab0-8cd8-442b-bfad-0e18e2237d82"
+				}
+			}
+		},
+		"attributes": {
+			"description": "MT700D"
+		},
+		"id": "803af4f9-9f8d-48dc-8e6d-5a565e3d5bb2"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "e0c6a801-61cb-44a8-96a6-054826eed692",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/713643e3-827c-41f3-a211-d7805620ea85/brands/e0c6a801-61cb-44a8-96a6-054826eed692"
+				}
+			}
+		},
+		"attributes": {
+			"description": "S Series"
+		},
+		"id": "713643e3-827c-41f3-a211-d7805620ea85"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/6fc6f1e6-3921-4f68-8fd0-2667b1cf0b16/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 7000 DYNA-6"
+		},
+		"id": "6fc6f1e6-3921-4f68-8fd0-2667b1cf0b16"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/57d2c680-e189-49d3-92fa-9b9d0eba8187/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 8600"
+		},
+		"id": "57d2c680-e189-49d3-92fa-9b9d0eba8187"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/46534e68-3807-4df9-bbe0-f9b09d5343c9/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 200 Advanced"
+		},
+		"id": "46534e68-3807-4df9-bbe0-f9b09d5343c9"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/423e746a-efc2-4a3b-97f0-a4278ccd8f2c/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 4200"
+		},
+		"id": "423e746a-efc2-4a3b-97f0-a4278ccd8f2c"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "50eedc62-ba2f-49b3-a70e-304597f91d40",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/40ed7920-8402-435f-8970-6bf9e0109b8f/brands/50eedc62-ba2f-49b3-a70e-304597f91d40"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Serie MF 200 Compact"
+		},
+		"id": "40ed7920-8402-435f-8970-6bf9e0109b8f"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "e0c6a801-61cb-44a8-96a6-054826eed692",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/387be5bc-d1ef-46bd-abac-61243d95258f/brands/e0c6a801-61cb-44a8-96a6-054826eed692"
+				}
+			}
+		},
+		"attributes": {
+			"description": "A Series"
+		},
+		"id": "387be5bc-d1ef-46bd-abac-61243d95258f"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "e0c6a801-61cb-44a8-96a6-054826eed692",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/317a4831-57fa-4d56-85d1-f59ea5f020e4/brands/e0c6a801-61cb-44a8-96a6-054826eed692"
+				}
+			}
+		},
+		"attributes": {
+			"description": "New N Series"
+		},
+		"id": "317a4831-57fa-4d56-85d1-f59ea5f020e4"
+	}, {
+		"type": "products",
+		"relationships": {
+			"brands": {
+				"id": "c4480917-7166-4310-8458-c1c8d37d8589",
+				"type": "brands",
+				"links": {
+					"related": "http://localhost:2426/products/19651354-1ac9-4ff3-ae15-8edf6a7b5a51/brands/c4480917-7166-4310-8458-c1c8d37d8589"
+				}
+			}
+		},
+		"attributes": {
+			"description": "Fendt 700 Vario"
+		},
+		"id": "19651354-1ac9-4ff3-ae15-8edf6a7b5a51"
+	}]
+}
