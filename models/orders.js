@@ -40,12 +40,4 @@ module.exports = function (server) {
         return reply(request.payload);
     } } ];
     server.route(post);
-
-    const source = new EventSource(server.info.uri + '/orders/changes/streaming')
-    Rx.Observable.fromEvent(source, 'orders_i')
-        .subscribe((e) => {
-            console.log(e);
-            console.log(e.data);
-            source.close();
-        });    
 }
