@@ -1,24 +1,29 @@
 'use strict';
-const 
-    Joi = require('joi'),
-    _ = require('lodash'),
-	model = {
+
+var Types = require('joi');
+
+module.exports = function (server) {
+    const harvesterPlugin = server.plugins['hapi-harvester']
+
+    const schema = {
         type: 'orders',
         attributes: {
-            status: Joi.string().description('Order status').valid(['new', 'pending', 'processed', 'fulfilled', 'invoiced']).forbidden(),
-            createdOn: Joi.date().forbidden(),
-            updatedOn: Joi.date().forbidden(),
-            totalPrice: Joi.number().forbidden(),
-            items: Joi.array().items(Joi.object({
-                product_id: Joi.string().required(),
-                quantity: Joi.number().integer().required(),
-                price: Joi.number().forbidden()
+            status: Types.string().description('Order status').valid(['new', 'pending', 'processed', 'fulfilled', 'invoiced']).forbidden(),
+            createdOn: Types.date().forbidden(),
+            updatedOn: Types.date().forbidden(),
+            totalPrice: Types.number().forbidden(),
+            items: Types.array().items(Types.object({
+                product_id: Types.string().required(),
+                quantity: Types.number().integer().required(),
+                price: Types.number().forbidden()
             }))
         }
-    }
-
-module.exports = function (harvesterApp) {
-    var post = _.clone(harvesterApp.routes['post'](model));
+    };
+    
+    server.route(harvesterPlugin.routes['get'](schema));
+    server.route(harvesterPlugin.routes['getById'](schema));
+    server.route(harvesterPlugin.routes['getChangesStreaming'](schema));
+    var post = _.clone(harvesterPlugin.routes['post'](schema));
     //hack: this is chockfull of state. No biggie, since it's a PoC. But please don't do this in prod code.
     post.config.pre = [ { assign: 'enrichment', method: (request, reply) => {
         var attributes = request.payload.data.attributes;
@@ -31,10 +36,6 @@ module.exports = function (harvesterApp) {
         }, 0.0);
         return reply(request.payload);
     } } ];
-    
-	return [harvesterApp.routes['get'](model),
-			harvesterApp.routes['getById'](model),
-            post,
-			harvesterApp.routes['patch'](model),
-			harvesterApp.routes['delete'](model)]
+  
+    server.route(post);
 }

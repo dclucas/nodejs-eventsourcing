@@ -11,10 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "hapi": "^11.1.2",
-    "hapi-harvester": "file:hapi-harvester",
+    "hapi-harvester": "^0.4.0",
     "hapi-swagger": "^2.2.4",
     "joi": "^7.0.1",
-    "mongoose": "^4.4.12",
+    "mongoose": "^4.4.13",
     "require-directory": "^2.1.1",
     "susie": "^2.0.0",
     "underscore": "^1.8.3"

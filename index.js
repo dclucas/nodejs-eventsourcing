@@ -1,13 +1,18 @@
-const Hapi = require('hapi'),
-    hapiHarvester = require('./hapi-harvester'),
+const 
+    Hapi = require('hapi'),
+    hapiHarvester = require('hapi-harvester'),
     config = require('./config')
     require_dir = require('require-directory'),
     _ = require('underscore'),
+    //adapter = hapiHarvester.getAdapter('mongodb'),
+    //adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
     adapter = hapiHarvester.getAdapter('mongodb'),
+    adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
     server = new Hapi.Server({}),
     mongoose = require('mongoose'),
     events = require("events"),
-    eventEmitter = new events();
+    eventEmitter = new events(),
+    susie = require('susie');
 
 mongoose.connect(config.connectionString);
 eventEmitter.on('promotion', function (body) { storeEvent('promotion', body) });
@@ -17,8 +22,16 @@ var promotionEvent = mongoose.model('promotionEvents', { id: String });
 var eventTypes = {'promotion': promotionEvent};
 
 server.connection({port: config.port});
-server.register([ //{register: require('hapi-swagger'), options: {apiVersion: require('./package.json').version}},
-                  { register: hapiHarvester, options: {adapter: adapter({mongodbUrl: config.connectionString}) }}]
+server.register([
+    {
+        register: hapiHarvester,
+        options: {
+            adapter: adapter(config.connectionString),
+            adapterSSE: adapterSSE(config.oplogConnectionString)
+        }
+    },
+    susie
+    ]
     , function () {
         var harvester = server.plugins['hapi-harvester'];
         server.start(() => loadResources(server, harvester))
@@ -36,9 +49,9 @@ server.route({
 
 function loadResources(server, harvester) {
     var models = require_dir(module, './models');
-    _.map(Object.keys(models), function(model){
-        server.route(models[model](harvester));
-    });
+    _.each(models, model => {
+        model(server);
+    })
 }
 
 function storeEvent(eventType, body) {
