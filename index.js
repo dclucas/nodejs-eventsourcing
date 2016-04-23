@@ -4,15 +4,14 @@ const
     config = require('./config')
     require_dir = require('require-directory'),
     _ = require('underscore'),
-    //adapter = hapiHarvester.getAdapter('mongodb'),
-    //adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
     adapter = hapiHarvester.getAdapter('mongodb'),
     adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
     server = new Hapi.Server({}),
     mongoose = require('mongoose'),
     events = require("events"),
     eventEmitter = new events(),
-    ess = require('event-source-stream'),
+    Rx = require('rx'),
+    EventSource = require('eventsource'),
     susie = require('susie');
 
 mongoose.connect(config.connectionString);
@@ -35,7 +34,10 @@ server.register([
     ]
     , function () {
         var harvester = server.plugins['hapi-harvester'];
-        server.start(() => loadResources(server, harvester))
+        server.start(() => {
+            loadResources(server, harvester);
+            console.log('Server running at:', server.info.uri);
+        })
     });
 
 server.route({
@@ -47,12 +49,6 @@ server.route({
        return reply('hello world');
    }
 });
-
- 
-ess('http://localhost:2426/orders/changes/streaming')
-  .on('data', function(data) {
-    console.log('received event:', data)
-  })
 
 function loadResources(server, harvester) {
     var models = require_dir(module, './models');

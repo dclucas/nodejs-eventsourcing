@@ -1,10 +1,12 @@
 'use strict';
 
-var Types = require('joi');
+const
+    Rx = require('rx'),
+    EventSource = require('eventsource'),
+    Types = require('joi');
 
 module.exports = function (server) {
     const harvesterPlugin = server.plugins['hapi-harvester']
-
     const schema = {
         type: 'orders',
         attributes: {
@@ -23,6 +25,7 @@ module.exports = function (server) {
     server.route(harvesterPlugin.routes['get'](schema));
     server.route(harvesterPlugin.routes['getById'](schema));
     server.route(harvesterPlugin.routes['getChangesStreaming'](schema));
+    
     var post = _.clone(harvesterPlugin.routes['post'](schema));
     //hack: this is chockfull of state. No biggie, since it's a PoC. But please don't do this in prod code.
     post.config.pre = [ { assign: 'enrichment', method: (request, reply) => {
@@ -36,6 +39,13 @@ module.exports = function (server) {
         }, 0.0);
         return reply(request.payload);
     } } ];
-  
     server.route(post);
+
+    const source = new EventSource(server.info.uri + '/orders/changes/streaming')
+    Rx.Observable.fromEvent(source, 'orders_i')
+        .subscribe((e) => {
+            console.log(e);
+            console.log(e.data);
+            source.close();
+        });    
 }
