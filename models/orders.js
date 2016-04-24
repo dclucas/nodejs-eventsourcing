@@ -1,8 +1,9 @@
 'use strict';
 
 const
-    Rx = require('rx'),
+    eh = require('../utils/eventHandling'),
     EventSource = require('eventsource'),
+    Rx = require('rx'),
     Types = require('joi');
 
 module.exports = function (server) {
@@ -40,4 +41,21 @@ module.exports = function (server) {
         return reply(request.payload);
     } } ];
     server.route(post);
+    
+    server.route({
+        method: 'POST',
+        path:'/orders/{id}/cancel', 
+        handler: function (request, reply) {
+            var id = encodeURIComponent(request.params.id);
+            const data = {type: 'order_events', attributes: {
+                kind: 'create', 
+                eventDate: new Date(), 
+                payload: request.payload
+            }};
+            eh.createEvent(server, 'order_events', data)
+            //propagateEvent('promotion', {'id': id});
+            return reply('hello world');
+        }
+    });
+
 }
