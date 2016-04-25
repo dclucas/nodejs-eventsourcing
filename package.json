@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^2.10.2",
     "hapi": "^11.1.2",
-    "hapi-harvester": "file:hapi-harvester",
+    "hapi-harvester": "^0.4.0",
     "hapi-swagger": "^2.2.4",
     "joi": "^7.0.1",
+    "mongodb": "^1.4.32",
     "mongoose": "^4.4.12",
     "require-directory": "^2.1.1",
     "underscore": "^1.8.3"
