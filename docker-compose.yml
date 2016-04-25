@@ -1,0 +1,5 @@
+db:
+  image: mongo:2.6
+  command: mongod --replSet "test" --smallfiles
+  expose:
+    - "27017"

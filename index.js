@@ -1,5 +1,5 @@
 const Hapi = require('hapi'),
-    hapiHarvester = require('./hapi-harvester'),
+    hapiHarvester = require('hapi-harvester'),
     config = require('./config')
     require_dir = require('require-directory'),
     _ = require('underscore'),
