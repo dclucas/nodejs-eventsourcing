@@ -1,25 +1,16 @@
-const 
-    Hapi = require('hapi'),
-    hapiHarvester = require('hapi-harvester'),
-    config = require('./config')
-    require_dir = require('require-directory'),
-    _ = require('underscore'),
-    adapter = hapiHarvester.getAdapter('mongodb'),
-    adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
-    server = new Hapi.Server({}),
-    mongoose = require('mongoose'),
-    events = require("events"),
-    eventEmitter = new events(),
-    Rx = require('rx'),
-    EventSource = require('eventsource'),
-    susie = require('susie');
-
-mongoose.connect(config.connectionString);
-eventEmitter.on('promotion', function (body) { storeEvent('promotion', body) });
-eventEmitter.on('promotion', aggregatePromotion);
-
-var promotionEvent = mongoose.model('promotionEvents', { id: String });
-var eventTypes = {'promotion': promotionEvent};
+const Hapi = require('hapi'),
+      hapiHarvester = require('hapi-harvester'),
+      config = require('./config')
+      require_dir = require('require-directory'),
+      _ = require('underscore'),
+      adapter = hapiHarvester.getAdapter('mongodb'),
+      adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
+      server = new Hapi.Server({}),
+      events = require("events"),
+      eventEmitter = new events(),
+      Rx = require('rx'),
+      EventSource = require('eventsource'),
+      susie = require('susie');
 
 server.connection({port: config.port});
 server.register([
@@ -55,28 +46,4 @@ function loadResources(server, harvester) {
     _.each(models, model => {
         model(server);
     })
-}
-
-function storeEvent(eventType, body) {
-    var model = eventTypes[eventType];
-    console.log(model);
-    var event = new model(body);
-    event.save(function (err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('ok');
-      }
-    });
-}
-
-function propagateEvent(eventType, eventBody) {
-    eventEmitter.emit(eventType, eventBody);
-}
-
-function aggregatePromotion(body) { 
-    var brands = mongoose.model('brands');
-    return brands.findOneAndUpdate(body.id, {$set: {'attributes.promoted': true }})
-    .then(res => {console.log(res);})
-    .catch(error => {console.log(error);});
 }

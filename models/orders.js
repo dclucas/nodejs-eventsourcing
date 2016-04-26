@@ -48,14 +48,12 @@ module.exports = function (server) {
         handler: function (request, reply) {
             var id = encodeURIComponent(request.params.id);
             const data = {type: 'order_events', attributes: {
-                kind: 'create', 
+                kind: 'cancel', 
                 eventDate: new Date(), 
                 payload: request.payload
             }};
-            eh.createEvent(server, 'order_events', data)
-            //propagateEvent('promotion', {'id': id});
-            return reply('hello world');
+            return eh.createEvent(server, 'order_events', data)
+            .then(reply('hello world'))
         }
     });
-
 }
