@@ -27,19 +27,4 @@ module.exports = function (server) {
     server.route(harvesterPlugin.routes['getById'](schema));
     server.route(harvesterPlugin.routes['post'](schema));
     server.route(harvesterPlugin.routes['getChangesStreaming'](schema));
-    
-    // var post = _.clone(harvesterPlugin.routes['post'](schema));
-    // //hack: this is chockfull of state. No biggie, since it's a PoC. But please don't do this in prod code.
-    // post.config.pre = [ { assign: 'enrichment', method: (request, reply) => {
-    //     var attributes = request.payload.data.attributes;
-    //     attributes.updatedOn = attributes.createdOn = new Date();
-    //     _.each(attributes.items, e => {
-    //         e.price = Math.floor((Math.random() * 10000) + 1) / 100;
-    //     });
-    //     attributes.totalPrice = _.reduce(attributes.items, (sum, i) => {
-    //         return sum + (i.price * i.quantity);
-    //     }, 0.0);
-    //     return reply(request.payload);
-    // } } ];
-    // server.route(post);
 }
