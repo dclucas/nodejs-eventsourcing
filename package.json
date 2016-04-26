@@ -14,11 +14,13 @@
     "hapi": "^11.1.2",
     "hapi-harvester": "agco/hapi-harvester#hotfix/dependencyFix",
     "hapi-swagger": "^2.2.4",
+    "inert": "^3.2.0",
     "joi": "^7.0.1",
     "mongoose": "^4.4.13",
     "require-directory": "^2.1.1",
     "rx": "^4.1.0",
     "susie": "^2.0.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "vision": "^4.1.0"
   }
 }

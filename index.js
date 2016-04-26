@@ -10,10 +10,12 @@ const Hapi = require('hapi'),
       eventEmitter = new events(),
       Rx = require('rx'),
       EventSource = require('eventsource'),
-      susie = require('susie');
+      susie = require('susie'),
+      vision = require('vision'),
+      inert = require('inert');
 
 server.connection({port: config.port});
-server.register([
+var plugins = [
     {
         register: hapiHarvester,
         options: {
@@ -21,8 +23,20 @@ server.register([
             adapterSSE: adapterSSE(config.oplogConnectionString)
         }
     },
-    susie
-    ]
+    susie,
+    inert,
+    vision,
+    {
+        register: require('hapi-swagger'),
+        options: {
+            info: {
+                title: 'Feature Unlock API',
+                version: '1.0.0'
+            }
+        }
+    }
+    ];
+server.register(plugins
     , function () {
         var harvester = server.plugins['hapi-harvester'];
         server.start(() => {
@@ -30,16 +44,6 @@ server.register([
             console.log('Server running at:', server.info.uri);
         })
     });
-
-server.route({
-   method: 'POST',
-   path:'/brands/{id}/promote', 
-   handler: function (request, reply) {
-       var id = encodeURIComponent(request.params.id)
-       propagateEvent('promotion', {'id': id});
-       return reply('hello world');
-   }
-});
 
 function loadResources(server, harvester) {
     var models = require_dir(module, './models');
