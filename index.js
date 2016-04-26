@@ -1,11 +1,11 @@
 const Hapi = require('hapi'),
+      server = new Hapi.Server({}),
       hapiHarvester = require('hapi-harvester'),
+      adapter = hapiHarvester.getAdapter('mongodb'),
+      adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
       config = require('./config')
       require_dir = require('require-directory'),
       _ = require('lodash'),
-      adapter = hapiHarvester.getAdapter('mongodb'),
-      adapterSSE = hapiHarvester.getAdapter('mongodb/sse'),
-      server = new Hapi.Server({}),
       events = require("events"),
       eventEmitter = new events(),
       Rx = require('rx'),
@@ -15,7 +15,7 @@ const Hapi = require('hapi'),
       inert = require('inert');
 
 server.connection({port: config.port});
-var plugins = [
+var plugins = [susie, inert, vision,
     {
         register: hapiHarvester,
         options: {
@@ -23,9 +23,6 @@ var plugins = [
             adapterSSE: adapterSSE(config.oplogConnectionString)
         }
     },
-    susie,
-    inert,
-    vision,
     {
         register: require('hapi-swagger'),
         options: {
@@ -35,17 +32,16 @@ var plugins = [
             }
         }
     }
-    ];
-server.register(plugins
-    , function () {
-        var harvester = server.plugins['hapi-harvester'];
-        server.start(() => {
-            loadResources(server, harvester);
-            console.log('Server running at:', server.info.uri);
-        })
-    });
+];
+server.register(plugins, startServer);
 
-function loadResources(server, harvester) {
+function startServer() {
+    server.start(() => {
+        loadResources(server);
+        console.log('Server running at:', server.info.uri);
+    })
+}
+function loadResources(server) {
     var models = require_dir(module, './models');
     _.each(models, model => {
         model(server);
