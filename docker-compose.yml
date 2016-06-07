@@ -1,5 +1,51 @@
-db:
-  image: mongo:2.6
-  command: mongod --replSet "test" --smallfiles
-  expose:
-    - "27017"
+version: "2"
+services:
+    web:
+        build: .
+        links:
+            - mongo
+            - elasticsearch
+        environment:
+            - MONGODB_URI=mongodb://mongo:27017/testDb
+            - MONGODB_OPLOG_URI=mongodb://mongo:27017/local
+            - PORT=2426
+        ports:
+            - "2426:2426"
+    mongo:
+        image: mongo:3.3
+        command: mongod --replSet "test" --smallfiles
+        ports:
+            - "27017:27017"
+    elasticsearch:
+        image: elasticsearch:2.3
+        command: elasticsearch -Des.network.host=0.0.0.0
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+    kibana:
+        image: kibana:4.5
+        links:
+            - elasticsearch
+        ports:
+            - "5601:5601"
+        environment:
+            - ELASTICSEARCH_URL=http://elasticsearch:9200
+
+    logstash:
+        image: logstash:2.3
+        #command: logstash -e 'input { tcp { port => 5000 } } output { elasticsearch { hosts => 192.168.99.100:9200 } }'
+        command: logstash -f /etc/logstash/conf.d/logstash.conf
+        volumes:
+            - ./logstash.conf:/etc/logstash/conf.d/logstash.conf
+        ports:
+            - "5000:5000"
+        environment:
+            - ELASTICSEARCH_URL=elasticsearch:9200
+        links:
+            - elasticsearch
+    logspout:
+        image: brendangibat/docker-logspout-logstash
+        environment:
+            - ROUTE_URIS=logstash://localhost:5000
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock

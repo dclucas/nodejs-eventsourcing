@@ -19,7 +19,10 @@ module.exports = function (server) {
                 product_id: Types.string().required(),
                 quantity: Types.number().integer().required(),
                 price: Types.number().forbidden()
-            }))
+            })).required()
+        },
+        relationships: {
+            products: { data: [ { type: 'products' } ]}
         }
     };
     
@@ -32,6 +35,8 @@ module.exports = function (server) {
     post.config.pre = [ { assign: 'enrichment', method: (request, reply) => {
         var attributes = request.payload.data.attributes;
         attributes.updatedOn = attributes.createdOn = new Date();
+        attributes.status = 'new';
+        // to-do: this should be validating the products and getting the price from there...
         _.each(attributes.items, e => {
             e.price = Math.floor((Math.random() * 10000) + 1) / 100;
         });
