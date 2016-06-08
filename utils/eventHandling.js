@@ -1,5 +1,7 @@
 'use strict';
-var mongoose = require('mongoose'),
+const 
+    mongoose = require('mongoose'),
+    log = require('./log'),
     config = require('../config');
 
 module.exports.createEvent = function (server, event_collection, event_body) {
@@ -8,7 +10,7 @@ module.exports.createEvent = function (server, event_collection, event_body) {
     const event = new harvesterPlugin.adapter.models[event_collection](event_body);
     return event.save()
     .then(data => {
-        console.log(data);
+        log.debug(data);
         return data; 
     });
 }
