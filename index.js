@@ -12,7 +12,8 @@ const Hapi = require('hapi'),
       EventSource = require('eventsource'),
       susie = require('susie'),
       vision = require('vision'),
-      inert = require('inert');
+      inert = require('inert'),
+      log = require('./utils/log');
 
 server.connection({port: config.port});
 var plugins = [susie, inert, vision,
@@ -38,7 +39,7 @@ server.register(plugins, startServer);
 function startServer() {
     server.start(() => {
         loadResources(server);
-        console.log('Server running at:', server.info.uri);
+        log.info('Server running at:' + server.info.uri);
     })
 }
 function loadResources(server) {
