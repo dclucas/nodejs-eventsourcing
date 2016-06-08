@@ -5,12 +5,18 @@ services:
         links:
             - mongo
             - elasticsearch
+            - logstash
         environment:
             - MONGODB_URI=mongodb://mongo:27017/testDb
             - MONGODB_OPLOG_URI=mongodb://mongo:27017/local
             - PORT=2426
         ports:
             - "2426:2426"
+        logging:
+            driver: gelf
+            options:
+                gelf-address: "udp://localhost:12201"    
+                gelf-tag: "first-logs"
     mongo:
         image: mongo:3.3
         command: mongod --replSet "test" --smallfiles
@@ -32,20 +38,43 @@ services:
             - ELASTICSEARCH_URL=http://elasticsearch:9200
 
     logstash:
-        image: logstash:2.3
-        #command: logstash -e 'input { tcp { port => 5000 } } output { elasticsearch { hosts => 192.168.99.100:9200 } }'
-        command: logstash -f /etc/logstash/conf.d/logstash.conf
-        volumes:
-            - ./logstash.conf:/etc/logstash/conf.d/logstash.conf
-        ports:
-            - "5000:5000"
-        environment:
-            - ELASTICSEARCH_URL=elasticsearch:9200
+        image: 'logstash:2.3'
+        command: 'logstash -f /etc/logstash/conf.d/logstash.conf'
         links:
             - elasticsearch
+        depends_on:
+            - elasticsearch
+#        expose:
+#            - '5514'
+        expose:
+            - "12201"
+        ports:
+            - "12201:12201"
+            - "12201:12201/udp"
+        restart: on-failure
     logspout:
-        image: brendangibat/docker-logspout-logstash
-        environment:
-            - ROUTE_URIS=logstash://localhost:5000
+        image: 'gliderlabs/logspout:v2'
+        command: '-c ''/bin/logspout syslog://logstash:12201'''
+        entrypoint: /bin/sh
+        links:
+            - logstash
+        depends_on:
+            - logstash
+        restart: always
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            - '/var/run/docker.sock:/tmp/docker.sock'    
+#    logstash:
+#        image: logstash:2.3
+#        command: logstash -f /etc/logstash/conf.d/logstash.conf
+#        network_mode: host
+#        volumes:
+#            - ./logstash.conf:/etc/logstash/conf.d/logstash.conf
+#        expose:
+#            - "12201"
+#        ports:
+#            - "12201:12201"
+#            - "12201:12201/udp"
+#        environment:
+#            - ELASTICSEARCH_URL=elasticsearch:9200
+#        links:
+#            - elasticsearch
