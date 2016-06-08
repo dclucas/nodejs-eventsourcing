@@ -36,10 +36,12 @@ services:
             - "5601:5601"
         environment:
             - ELASTICSEARCH_URL=http://elasticsearch:9200
-
+# docker run -it --rm logstash logstash -e 'input { stdin { } } output { stdout { } }'
+# docker run -it --rm -v "$PWD":/config-dir logstash logstash -f /config-dir/logstash.conf
     logstash:
         image: 'logstash:2.3'
-        command: 'logstash -f /etc/logstash/conf.d/logstash.conf'
+        #command: 'logstash -f /etc/logstash/conf.d/logstash.conf'
+        command: "logstash -e 'input { stdin { } } output { stdout { } }'"
         links:
             - elasticsearch
         depends_on:
