@@ -6,6 +6,7 @@ services:
             - mongo
             - elasticsearch
             - logstash
+            - statsd
         environment:
             - MONGODB_URI=mongodb://mongo:27017/testDb
             - MONGODB_OPLOG_URI=mongodb://mongo:27017/local
@@ -26,7 +27,6 @@ services:
             - "9200:9200"
             - "9300:9300"
     logstash:
-        #image: logstash:latest
         image: logstash:2.3
         command: logstash -f /etc/logstash/conf.d/logstash.conf
         volumes:
@@ -38,35 +38,20 @@ services:
     kibana:
         build: elk/kibana/
         volumes:
-        - ./elk/kibana/config/:/opt/kibana/config/
+            - ./elk/kibana/config/:/opt/kibana/config/
         ports:
             - "5601:5601"
         links:
             - elasticsearch
-#    logspout:
-#        image: 'gliderlabs/logspout:v2'
-#        command: '-c ''/bin/logspout syslog://logstash:12201'''
-#        entrypoint: /bin/sh
-#        links:
-#            - logstash
-#        depends_on:
-#            - logstash
-#        restart: always
-#        volumes:
-#            - '/var/run/docker.sock:/tmp/docker.sock'
-    
-#    logstash:
-#        image: logstash:2.3
-#        command: logstash -f /etc/logstash/conf.d/logstash.conf
-#        network_mode: host
-#        volumes:
-#            - ./logstash.conf:/etc/logstash/conf.d/logstash.conf
-#        expose:
-#            - "12201"
-#        ports:
-#            - "12201:12201"
-#            - "12201:12201/udp"
-#        environment:
-#            - ELASTICSEARCH_URL=elasticsearch:9200
-#        links:
-#            - elasticsearch
+    statsd:
+        image: christianbladescb/statsd-elasticsearch:0.0.1
+        environment:
+            # 192.168.99.100
+            - ES_HOST=elasticsearch
+            - ES_PORT=9200   
+        ports:
+            - 8125:8125/udp
+            - 8126:8126            
+            - 8127:8127/udp
+        links:
+            - elasticsearch
