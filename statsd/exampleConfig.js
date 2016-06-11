@@ -118,9 +118,33 @@ Optional Variables:
   automaticConfigReload: whether to watch the config file and reload it when it
                          changes. The default is true. Set this to false to disable.
 */
+/*
 {
   graphitePort: 2003
 , graphiteHost: "graphite.example.com"
 , port: 8125
 , backends: [ "./backends/graphite" ]
 }
+*/
+
+(function() {
+    return {
+        port: 8125
+        , backends: [ 'statsd-elasticsearch-backend' ]
+        , debug: true
+        , elasticsearch: {
+            port:          parseInt(process.env.ES_PORT) || parseInt(process.env.ES_PORT_9200_TCP_PORT) || 9200,
+            host:          process.env.ES_HOST || process.env.ES_PORT_9200_TCP_ADDR || "172.17.42.1",
+            path:          process.env.ES_PATH || "/",
+            indexPrefix:   process.env.ES_PREFIX || "statsd",
+            //indexTimestamp: "year",  //for index statsd-2015 
+            //indexTimestamp: "month", //for index statsd-2015.01
+            indexTimestamp: "day",     //for index statsd-2015.01.01
+            countType:     "counter",
+            timerType:     "timer",
+            timerDataType: "timer_data",
+            gaugeDataType: "gauge",
+            formatter:     "default_format"     
+        }   
+    };
+})();

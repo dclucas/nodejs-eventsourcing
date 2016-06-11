@@ -5,4 +5,6 @@ config.oplogConnectionString = process.env.MONGODB_OPLOG_URI || 'mongodb://local
 config.logstashHost = process.env.LOGSTASH_HOST || 'localhost';
 config.logstashPort = process.env.LOGSTASH_PORT || '5000';
 config.port = process.env.PORT || 2426;
+config.statsdHost = process.env.STATSD_HOST || 'localhost';
+config.statsdHost = process.env.STATSD_PORT || 8125;
 module.exports = config;
