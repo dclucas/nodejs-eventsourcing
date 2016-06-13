@@ -27,10 +27,10 @@ function extractMetrics(request) {
         url: request.url.path,
         client_id: undefined,
         user_id: undefined,
-        received: request.received,
+        received: request.info.received,
         resource_id: id,
         statusCode: response.statusCode,
-        responded: request.responded,
+        responded: request.info.responded,
         route: _.replace(request.url.path, id, '{id}') 
     };
 }
