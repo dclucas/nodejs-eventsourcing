@@ -16,7 +16,6 @@
     "eventsource": "^0.2.1",
     "hapi": "^13.4.1",
     "hapi-harvester": "^0.5.1",
-    "hapi-statsd": "^5.0.1",
     "hapi-swagger": "^6.1.0",
     "inert": "^3.2.0",
     "joi": "^7.0.1",

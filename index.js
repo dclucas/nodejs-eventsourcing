@@ -13,7 +13,8 @@ const Hapi = require('hapi'),
       susie = require('susie'),
       vision = require('vision'),
       inert = require('inert'),
-      log = require('./utils/log');
+      log = require('./utils/log'),
+      restEvent = require('./utils/restEvent');
 
 server.connection({port: config.port});
 var plugins = [susie, inert, vision,
@@ -32,36 +33,12 @@ var plugins = [susie, inert, vision,
                 version: '1.0.0'
             }
         }
-    },
-    {
-        register: require('hapi-statsd'),
-        options: {
-            host: config.statsdHost,
-            port: config.statsdPort
-        }
     }
 ];
 server.register(plugins, startServer);
 
-function extractMetrics(request) {
-    const response = request.response;
-    return {
-        id: request.id,
-        method: request.method,
-        url: request.url.path,
-        client_id: undefined,
-        user_id: undefined,
-        received: request.received,
-        resource_id: _.get(response, 'source.data.id'),
-        statusCode: response.statusCode,
-        responded: request.responded
-    };
-}
-
 server.on('response', function (request) {
-    //console.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.url.path + ' --> ' + request.response.statusCode);
-    const payload = extractMetrics(request) 
-    log.info(payload);
+    restEvent.publish(request);
 });
 
 function startServer() {

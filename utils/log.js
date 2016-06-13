@@ -5,7 +5,7 @@ const
     bunyantcp = require('bunyan-logstash-tcp'),
     config = require('../config'),
     logger = bunyan.createLogger({
-    name: 'example',
+    name: 'log-entry',
     streams: [{
         level: 'debug',
         stream: process.stdout

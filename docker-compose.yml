@@ -6,7 +6,6 @@ services:
             - mongo
             - elasticsearch
             - logstash
-            - statsd
         environment:
             - MONGODB_URI=mongodb://mongo:27017/testDb
             - MONGODB_OPLOG_URI=mongodb://mongo:27017/local
@@ -21,7 +20,6 @@ services:
             - mongo
             - elasticsearch
             - logstash
-            - statsd
     mongo:
         image: mongo:3.3
         command: mongod --replSet "test" --smallfiles
@@ -54,18 +52,3 @@ services:
             - elasticsearch
         depends_on:
             - elasticsearch
-    statsd:
-        #image: christianbladescb/statsd-elasticsearch:0.0.1
-        build: statsd
-        environment:
-            # 192.168.99.100
-            - ES_HOST=elasticsearch
-            - ES_PORT=9200   
-        ports:
-            - 8125:8125/udp
-            - 8126:8126            
-        links:
-            - elasticsearch
-        depends_on:
-            - elasticsearch
-            - kibana
