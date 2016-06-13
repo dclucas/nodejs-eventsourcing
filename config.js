@@ -7,4 +7,5 @@ config.logstashPort = process.env.LOGSTASH_PORT || '5000';
 config.port = process.env.PORT || 2426;
 config.statsdHost = process.env.STATSD_HOST || 'localhost';
 config.statsdHost = process.env.STATSD_PORT || 8125;
+config.zkUri = process.env.ZK_URI || '127.0.0.1:2181';
 module.exports = config;

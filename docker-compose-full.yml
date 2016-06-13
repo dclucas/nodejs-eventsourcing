@@ -6,6 +6,7 @@ services:
             - mongo
             - elasticsearch
             - logstash
+            - kafka
         environment:
             - MONGODB_URI=mongodb://mongo:27017/testDb
             - MONGODB_OPLOG_URI=mongodb://mongo:27017/local
@@ -14,9 +15,11 @@ services:
             - LOGSTASH_PORT=5000
             - STATSD_HOST=statsd
             - STATSD_PORT=8125
+            - KAFKA_URI=127.0.0.1:9092
         ports:
             - "2426:2426"
         depends_on:
             - mongo
             - elasticsearch
             - logstash
+            - kafka
