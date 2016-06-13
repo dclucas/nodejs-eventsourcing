@@ -13,7 +13,8 @@ const Hapi = require('hapi'),
       susie = require('susie'),
       vision = require('vision'),
       inert = require('inert'),
-      log = require('./utils/log');
+      log = require('./utils/log'),
+      restEvent = require('./utils/restEvent');
 
 server.connection({port: config.port});
 var plugins = [susie, inert, vision,
@@ -36,12 +37,17 @@ var plugins = [susie, inert, vision,
 ];
 server.register(plugins, startServer);
 
+server.on('response', function (request) {
+    restEvent.publish(request);
+});
+
 function startServer() {
     server.start(() => {
         loadResources(server);
         log.info('Server running at:' + server.info.uri);
     })
 }
+
 function loadResources(server) {
     var models = require_dir(module, './models');
     _.each(models, model => {

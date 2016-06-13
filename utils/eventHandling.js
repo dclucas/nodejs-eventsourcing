@@ -4,8 +4,8 @@ const
     log = require('./log'),
     config = require('../config');
 
-module.exports.createEvent = function (server, event_collection, event_body) {
-    console.log('Creating event ' + event_collection + ' ' + event_body);
+function createEvent(server, event_collection, event_body) {
+    log.debug('Creating event ' + event_collection + ' ' + event_body);
     const harvesterPlugin = server.plugins['hapi-harvester'];
     const event = new harvesterPlugin.adapter.models[event_collection](event_body);
     return event.save()
@@ -14,3 +14,5 @@ module.exports.createEvent = function (server, event_collection, event_body) {
         return data; 
     });
 }
+
+module.exports.createEvent = createEvent;
