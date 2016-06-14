@@ -4,6 +4,7 @@ const
     eh = require('../utils/eventHandling'),
     EventSource = require('eventsource'),
     Rx = require('rx'),
+    uuid = require('uuid'),
     Types = require('joi');
 
 module.exports = function (server) {
@@ -28,23 +29,47 @@ module.exports = function (server) {
     
     server.route(harvesterPlugin.routes['get'](schema));
     server.route(harvesterPlugin.routes['getById'](schema));
-    server.route(harvesterPlugin.routes['getChangesStreaming'](schema));
+    //server.route(harvesterPlugin.routes['getChangesStreaming'](schema));
     
     var post = _.clone(harvesterPlugin.routes['post'](schema));
     //hack: this is chockfull of state. No biggie, since it's a PoC. But please don't do this in prod code.
-    post.config.pre = [ { assign: 'enrichment', method: (request, reply) => {
-        var attributes = request.payload.data.attributes;
-        attributes.updatedOn = attributes.createdOn = new Date();
-        attributes.status = 'new';
-        // to-do: this should be validating the products and getting the price from there...
-        _.each(attributes.items, e => {
-            e.price = Math.floor((Math.random() * 10000) + 1) / 100;
-        });
-        attributes.totalPrice = _.reduce(attributes.items, (sum, i) => {
-            return sum + (i.price * i.quantity);
-        }, 0.0);
-        return reply(request.payload);
-    } } ];
+    post.config.pre = [
+        { 
+            assign: 'enrichment', 
+            method: (request, reply) => {
+                var attributes = request.payload.data.attributes;
+                request.payload.data._id = uuid.v4();
+                attributes.updatedOn = attributes.createdOn = new Date();
+                attributes.status = 'new';
+                // to-do: this should be validating the products and getting the price from there...
+                _.each(attributes.items, e => {
+                    e.price = Math.floor((Math.random() * 10000) + 1) / 100;
+                });
+                attributes.totalPrice = _.reduce(attributes.items, (sum, i) => {
+                    return sum + (i.price * i.quantity);
+                }, 0.0);
+                return reply(request.payload);
+            } 
+        },
+        {
+            assign: 'broadcast',
+            method: (request, reply) => {
+                const payload = request.pre.enrichment;
+                const data = {
+                    type: 'order_events',
+                    id: uuid.v4(),
+                    attributes: {
+                        kind: 'create',
+                        key:  payload._id,
+                        eventDate: new Date(), 
+                        payload: request.payload
+                    }
+                };
+                return eh.createEvent(server, 'order_events', data)
+                .then(() => reply(data));
+            }
+        } 
+        ];
     server.route(post);
     
     server.route({
@@ -52,15 +77,15 @@ module.exports = function (server) {
         path:'/orders/{id}/cancel', 
         handler: function (request, reply) {
             var id = encodeURIComponent(request.params.id);
-            const data = {type: 'order_events', 
-            attributes: {
-                kind: 'cancel',
-                key: id,
-                eventDate: new Date(), 
-                payload: request.payload
-            }};
-            return eh.createEvent(server, 'order_events', data)
-            .then(() => reply('hello world'))
+            const data = {
+                type: 'order_events', 
+                attributes: {
+                    kind: 'cancel',
+                    key: id,
+                    eventDate: new Date(), 
+                    payload: request.payload
+                }};
+            return eh.createEvent(server, 'order_events', data);
         }
     });
 }

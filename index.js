@@ -45,12 +45,12 @@ function startServer() {
     server.start(() => {
         loadResources(server);
         log.info('Server running at:' + server.info.uri);
-    })
+    });
 }
 
 function loadResources(server) {
     var models = require_dir(module, './models');
     _.each(models, model => {
         model(server);
-    })
+    });
 }

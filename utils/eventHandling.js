@@ -7,7 +7,12 @@ const
     Kafka = require('no-kafka'),
     producer = new Kafka.Producer({
         connectionString: config.kafkaUri
-    });
+    }),
+    durableMethods = [
+        'post',
+        'delete',
+        'patch'
+    ];
 
 function storeEvent(server, event_collection, event_body) {
     log.debug('Creating event ' + event_collection + ' ' + event_body);
@@ -20,7 +25,7 @@ function storeEvent(server, event_collection, event_body) {
     });
 }
 
-function broadcastEvent(server, event_collection, event_body) {
+function broadcastEvent(event_collection, event_body) {
     return producer.init().then(() => {
         return producer.send({
             topic: event_collection,
@@ -40,8 +45,9 @@ function broadcastEvent(server, event_collection, event_body) {
 function createEvent(server, event_collection, event_body) {
     return Promise.all([ 
         storeEvent(server, event_collection, event_body),
-        broadcastEvent(server, event_collection, event_body)
+        broadcastEvent(event_collection, event_body)
     ]);
 }
 
 module.exports.createEvent = createEvent;
+module.exports.broadCastEvent = broadcastEvent;
