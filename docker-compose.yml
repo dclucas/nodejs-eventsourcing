@@ -45,6 +45,7 @@ services:
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
+            #todo: figure out a way to stop using this hard-coded ip
             KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
             #KAFKA_CREATE_TOPICS: "test:1:1"
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181

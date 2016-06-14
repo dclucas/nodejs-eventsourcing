@@ -52,13 +52,15 @@ module.exports = function (server) {
         path:'/orders/{id}/cancel', 
         handler: function (request, reply) {
             var id = encodeURIComponent(request.params.id);
-            const data = {type: 'order_events', attributes: {
-                kind: 'cancel', 
+            const data = {type: 'order_events', 
+            attributes: {
+                kind: 'cancel',
+                key: id,
                 eventDate: new Date(), 
                 payload: request.payload
             }};
             return eh.createEvent(server, 'order_events', data)
-            .then(reply('hello world'))
+            .then(() => reply('hello world'))
         }
     });
 }
